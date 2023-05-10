@@ -24,7 +24,7 @@ class ParentInterface extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    final alertsManager = Provider.of<ProviderDataStudent>(context);
+    final alertsManager = Provider.of<ProviderDataManager>(context);
     return Scaffold(
       appBar: AppBar(title: Text('Parent Interface')),
       body: Column(
@@ -46,7 +46,7 @@ class ParentInterface extends StatelessWidget {
 class SupervisorStudentInterface extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final alertsManager = Provider.of<ProviderDataStudent>(context);
+    final alertsManager = Provider.of<ProviderDataManager>(context);
     alertsManager.AlertsManager();
 
     return Scaffold(

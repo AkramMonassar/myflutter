@@ -20,14 +20,14 @@ class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    final noteManager = Provider.of<ProviderDataStudent>(context);
+    Provider.of<ProviderDataManager>(context).getStudentsDetailsList();
+    final noteManager = Provider.of<ProviderDataManager>(context);
     noteManager.NoteManager();
 
     final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Consumer<ProviderDataStudent>(
+      home: Consumer<ProviderDataManager>(
         builder: (context,dataStudent,child){
           return SafeArea(
             child: Scaffold(
@@ -124,13 +124,13 @@ class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
                               const SizedBox(
                                 width: 3,
                               ),
-                              Text(
-                                'المشرف: ${noteManager.user.email}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                ),
-                              ),
+                              // Text(
+                              //   'المشرف: ${user.email}',
+                              //   style: const TextStyle(
+                              //     color: Colors.white,
+                              //     fontSize: 14,
+                              //   ),
+                              // ),
 
                             ],
                           ),

@@ -12,13 +12,13 @@ class NotificationsNoteSupervisor23 extends StatelessWidget {
   Widget build(BuildContext context) {
 
     // Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    final noteStudentGManager = Provider.of<ProviderDataStudent>(context);
+    final noteStudentGManager = Provider.of<ProviderDataManager>(context);
     noteStudentGManager.notesStudentGManager();
 
     final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Consumer<ProviderDataStudent>(
+      home: Consumer<ProviderDataManager>(
         builder: (context,dataStudent,child){
           return SafeArea(
             child: Scaffold(
@@ -103,13 +103,13 @@ class NotificationsNoteSupervisor23 extends StatelessWidget {
                             const SizedBox(
                               width: 15,
                             ),
-                            Text(
-                              'المشرف: ${noteStudentGManager.user.email}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
+                            // Text(
+                            //   'المشرف: ${dataStudent.user.email}',
+                            //   style: const TextStyle(
+                            //     color: Colors.white,
+                            //     fontSize: 14,
+                            //   ),
+                            // ),
 
                           ],
                         ),

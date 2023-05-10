@@ -402,8 +402,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         phone: int.parse(_phoneController.text),
                                         email: _emailController.text,
                                         password: _passwordController.text,
-                                        confirmPassword: _confirmPasswordController
-                                            .text,
+                                        confirmPassword: _confirmPasswordController.text,
                                       );
                                       Administrator.createAdministrator(admin);
                                     });

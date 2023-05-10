@@ -1,17 +1,24 @@
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:school_delivery/business/authStudentFoundDataInPrepar.dart';
 import 'package:school_delivery/business/authStudentGuardians.dart';
 import 'package:school_delivery/ui/Feature/Login%20Screen/Login_Screen_Guardian.dart';
 import 'package:school_delivery/ui/widgets/background_widget.dart';
 
+import '../Provider/provider_Data_Manager.dart';
 import '../business/auth.dart';
 
 class UserInterface5 extends StatelessWidget {
    UserInterface5({
     Key? key,
   }) : super(key: key);
+
+   // int selectIn=0;
   @override
   Widget build(BuildContext context) {
+    // selectIn!=Provider.of<ProviderDataManager>(context).selectManager;
+    // print("from UserInterface the index choose : ${selectIn}");
     return Scaffold(
       backgroundColor: const Color(0xffecefe4),
       body: Stack(
@@ -26,20 +33,24 @@ class UserInterface5 extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 200,
-                  child: MaterialButton(onPressed: (){
+                  child:
+
+                  MaterialButton(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: const BorderSide(
+                            color: Colors.black,
+                            width: 1
+                        )
+                    ),
+                    padding:  EdgeInsets.symmetric(horizontal: 0,vertical: 7),
+
+                    onPressed:() {
                     Navigator.push(context,
                     MaterialPageRoute(builder: (context)=>Auth()));
                   },
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        side: const BorderSide(
-                          color: Colors.black,
-                          width: 1
-                        )
-                      ),
-                    padding:  EdgeInsets.symmetric(horizontal: 0,vertical: 7),
-                      child:  Text('مسؤول الحركة',style: TextStyle(fontSize: 30,color: Colors.black),),
+                    child:  Text('مسؤول الحركة',style: TextStyle(fontSize: 30,color: Colors.black),),
                   ),
                 )
               ]),
@@ -54,8 +65,6 @@ class UserInterface5 extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: MaterialButton(onPressed: (){
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context)=>LoginScreenSupervisor()));
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context)=>AuthStudentFoundDataInPrepare()));
                     },
@@ -106,4 +115,5 @@ class UserInterface5 extends StatelessWidget {
       ),
     );
   }
+
 }

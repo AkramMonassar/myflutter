@@ -11,14 +11,14 @@ class NotificationsSupervisor23 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    final alertsManager = Provider.of<ProviderDataStudent>(context);
+    Provider.of<ProviderDataManager>(context).getStudentsDetailsList();
+    final alertsManager = Provider.of<ProviderDataManager>(context);
     alertsManager.AlertsManager();
 
     final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Consumer<ProviderDataStudent>(
+      home: Consumer<ProviderDataManager>(
         builder: (context,dataStudent,child){
           return SafeArea(
             child: Scaffold(
@@ -100,13 +100,13 @@ class NotificationsSupervisor23 extends StatelessWidget {
                             const SizedBox(
                               width: 5,
                             ),
-                            Text(
-                              'المشرف: ${alertsManager.user.email}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
+                            // Text(
+                            //   'المشرف: ${dataStudent.user.email}',
+                            //   style: const TextStyle(
+                            //     color: Colors.white,
+                            //     fontSize: 14,
+                            //   ),
+                            // ),
 
                           ],
                         ),

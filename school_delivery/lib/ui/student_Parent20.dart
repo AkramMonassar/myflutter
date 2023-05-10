@@ -14,13 +14,13 @@ class StudentParent20 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    final alertsManager = Provider.of<ProviderDataStudent>(context);
+    Provider.of<ProviderDataManager>(context).getStudentsDetailsList();
+    final alertsManager = Provider.of<ProviderDataManager>(context);
 
-    // final user = FirebaseAuth.instance.currentUser!;
+    final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Consumer<ProviderDataStudent>(
+      home: Consumer<ProviderDataManager>(
         builder: (context,dataStudent,child){
           return SafeArea(
             child: Scaffold(
@@ -114,7 +114,7 @@ class StudentParent20 extends StatelessWidget {
                               width: 15,
                             ),
                             Text(
-                              'اسم الطالب: ${dataStudent.user.displayName}',
+                              'اسم الطالب: ${user.displayName}',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -156,7 +156,7 @@ class StudentParent20 extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
                                 ),
                                 onPressed: (){
-                                  alertsManager.addAlert(' طلب / عدم الذهاب الى المدرسة للطالب ${dataStudent.user.displayName} ');
+                                  alertsManager.addAlert(' طلب / عدم الذهاب الى المدرسة للطالب ${user.displayName} ');
                                   childMethod(context);                                },
                                 child: const Text("طلب الغاء الذهاب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                               ),
@@ -166,7 +166,7 @@ class StudentParent20 extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
                                 ),
                                 onPressed: (){
-                                  alertsManager.addAlert(' طلب / عدم الاياب من المدرسة للطالب ${dataStudent.user.displayName} ');
+                                  alertsManager.addAlert(' طلب / عدم الاياب من المدرسة للطالب ${user.displayName} ');
                                   childMethod(context);                                  },
                                 child: const Text("طلب الغاء الاياب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                               ),

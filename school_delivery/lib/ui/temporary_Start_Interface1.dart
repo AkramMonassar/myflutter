@@ -5,6 +5,7 @@ import 'package:adobe_xd/pinned.dart';
 import 'package:school_delivery/ui/users_Interface5.dart';
 
 import '../main.dart';
+import 'myHomePage.dart';
 
 class TemporaryStartInterface1  extends State<TemporaryStartUI1> {
 
@@ -15,6 +16,7 @@ class TemporaryStartInterface1  extends State<TemporaryStartUI1> {
     }
 
   Future<Timer> navigateToMainInterface() async {
+    print("&&&&&&&&&&&&&& from temporay screen &&&&&&&&&&&&&&& ");
     return Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,

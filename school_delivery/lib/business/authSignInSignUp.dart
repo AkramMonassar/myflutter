@@ -32,7 +32,7 @@ class AuthSignInSignUp {
         print(" خطأ:${e.code}");
       } else if (e.code == 'wrong-password') {
         // handle wrong password error
-        message = ' حاول التاكد من كلمة المرور يابطل';
+        message = ' حاول التاكد من كلمة المرور ';
         print("Error : Invalid wrong password error");
         print("Wrong password : ${e.code}");
         showAlertDialog(context, message, "خطأ");

@@ -11,7 +11,7 @@ import '../data/notes_StudentG_model.dart';
 import '../data/notes_Supervisor_model.dart';
 import '../data/preparations_model.dart';
 
-class ProviderDataStudent extends ChangeNotifier{
+class ProviderDataManager extends ChangeNotifier{
   // student infor
   List studentsGListObject = [];
   CollectionReference collectionReference =
@@ -60,28 +60,24 @@ class ProviderDataStudent extends ChangeNotifier{
   }
 
 
-  // praparion
-
-  List preparingListObject = [];
-  CollectionReference collectionReferencePreparing =
-  FirebaseFirestore.instance.collection('Preparations');
-
-
-
-  List<Preparations>  preparationList=[];
-
-  Future preparingDetailsList() async {
-    collectionReference =
-        FirebaseFirestore.instance.collection('Preparations');
-
-    final snapshot = await collectionReference.get();
-    preparingListObject = snapshot.docs;
-
-    notifyListeners();
-  }
-  // bool doneChangeGo(){
-  //   isGo=!isGo!;
-  //   return isGo!;
+  // // praparion
+  //
+  // List preparingListObject = [];
+  // CollectionReference collectionReferencePreparing =
+  // FirebaseFirestore.instance.collection('Preparations');
+  //
+  //
+  //
+  // List<Preparations>  preparationList=[];
+  //
+  // Future preparingDetailsList() async {
+  //   collectionReference =
+  //       FirebaseFirestore.instance.collection('Preparations');
+  //
+  //   final snapshot = await collectionReference.get();
+  //   preparingListObject = snapshot.docs;
+  //
+  //   notifyListeners();
   // }
 
 
@@ -204,4 +200,34 @@ class ProviderDataStudent extends ChangeNotifier{
     super.dispose();
   }
 
+  // المتغير حق الواجهات في البداية
+  // int? selectManager;
+  int _myVariable = 0;
+
+  int get myVariable => _myVariable;
+
+  void setMyVariable(int newValue) {
+    _myVariable = newValue;
+    notifyListeners();
+  }
+
+
+
+  // List<String> selectedSt = [];
+  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //
+  // void _updateFirestore() {
+  //   var today = DateTime.now();
+  //   var goCollection ='prepare_schedule';
+  //   // 'prepare_schedule_${today.year}_${today.month}_${today.day}';
+  //   for (var student in selectedSt) {
+  //     firestore.collection(goCollection).doc(student).set({
+  //       'name': student,
+  //       'isReturnTrip': false,
+  //       'isHomecoming': false,
+  //       'date': today,
+  //     });
+  //   }
+  //
+  // }
 }

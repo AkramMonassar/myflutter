@@ -12,11 +12,13 @@ class DataTableStudentList extends StatefulWidget {
 }
 
 class _DataTableStudentListState extends State<DataTableStudentList> {
+
+  // bool isReturnTrip = false;
   List<String> selectedStudents = [];
   bool isReturnTrip = false;
   List<String> selectedIsHomecoming = [];
   bool isHomecoming = false;
-  bool ok=false;
+  // bool ok=false;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void _updateFirestore() {
@@ -46,7 +48,7 @@ class _DataTableStudentListState extends State<DataTableStudentList> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProviderDataStudent>(
+    return Consumer<ProviderDataManager>(
         builder: (context, dataStudent, child) {
       return SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -62,54 +64,68 @@ class _DataTableStudentListState extends State<DataTableStudentList> {
                 var students =
                     snapshot.data!.docs.map((doc) => doc['fullName']).toList();
                 return DataTable(
-                  columnSpacing: 40,
-                  dividerThickness: 5,
+                  columnSpacing: 35,
+                  dividerThickness: 3,
                   columns: const [
                     DataColumn(
                         label: Text('الاسم',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                              fontSize: 16,
                             ))),
                     DataColumn(
-                        label: Text('الحضور',
+                        label: Text('اياب',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                              fontSize: 16,
                             ))),
                     DataColumn(
-                        label: Text('الانصراف',
+                        label: Text('ذهاب',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                              fontSize: 16,
                             ))),
                   ],
                   rows: students.map((student) {
                     return DataRow(cells: [
                       DataCell(Text(student,style: TextStyle(fontWeight: FontWeight.bold),)),
-                      DataCell(Checkbox(
-                        value: selectedStudents.contains(student),
-                        onChanged: (value) {
-                          setState(() {
-                            if (value!) {
-                              selectedStudents.add(student);
-                            } else {
-                              selectedStudents.remove(student);
-                            }
-                          });
-                        },
+                      DataCell(Theme(
+                        data: ThemeData(
+                          checkboxTheme: CheckboxThemeData(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                        ),
+                        child: Checkbox(
+                          value: selectedStudents.contains(student),
+                          onChanged: (value) {
+                            setState(() {
+                              if (value!) {
+                                selectedStudents.add(student);
+                              } else {
+                                selectedStudents.remove(student);
+                              }
+                            });
+                          },
+                        ),
                       )),
-                      DataCell(Checkbox(
-                        value: selectedIsHomecoming.contains(student),
-                        onChanged: (value) {
-                          setState(() {
-                            if (value!) {
-                              selectedIsHomecoming.add(student);
-                            } else {
-                              selectedIsHomecoming.remove(student);
-                            }
-                          });
-                        },
+                      DataCell(Theme(
+                        data: ThemeData(
+                          checkboxTheme: CheckboxThemeData(
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                        ),
+                        child: Checkbox(
+                          value: selectedIsHomecoming.contains(student),
+                          onChanged: (value) {
+                            setState(() {
+                              if (value!) {
+                                selectedIsHomecoming.add(student);
+                              } else {
+                                selectedIsHomecoming.remove(student);
+                              }
+                            });
+                          },
+                        ),
                       )),
                     ]);
                   }).toList(),
@@ -191,6 +207,7 @@ class _DataTableStudentListState extends State<DataTableStudentList> {
                             });
                           },
                         ),
+                        // زر الحفظ الخاص بتحضير الظهر " الاياب " الانصراف
                         ElevatedButton(
                           onPressed: () {
                             if (selectedIsHomecoming.isNotEmpty) {

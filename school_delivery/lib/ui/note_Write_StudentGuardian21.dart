@@ -20,14 +20,14 @@ class _NoteWriteStudentGuardian21 extends State<NoteWriteStudentGuardian21> {
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    final noteStudentGManager = Provider.of<ProviderDataStudent>(context);
+    Provider.of<ProviderDataManager>(context).getStudentsDetailsList();
+    final noteStudentGManager = Provider.of<ProviderDataManager>(context);
     noteStudentGManager.NoteManager();
 
     final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Consumer<ProviderDataStudent>(
+      home: Consumer<ProviderDataManager>(
         builder: (context,dataStudent,child){
           return SafeArea(
             child: Scaffold(
@@ -36,7 +36,7 @@ class _NoteWriteStudentGuardian21 extends State<NoteWriteStudentGuardian21> {
               floatingActionButton:FloatingActionButton(
                 heroTag: null,
                 onPressed: () {
-                  noteStudentGManager.addNoteStudentG('${noteStudentGController.text} :ولي امر الطالب :${noteStudentGManager.user.displayName}');
+                  noteStudentGManager.addNoteStudentG('${noteStudentGController.text} :ولي امر الطالب :${user.displayName}');
                   noteStudentGController.text="";
                   childMethod(context);
 
@@ -134,7 +134,7 @@ class _NoteWriteStudentGuardian21 extends State<NoteWriteStudentGuardian21> {
                                 width: 15,
                               ),
                               Text(
-                                'الطالب: ${noteStudentGManager.user.displayName}',
+                                'الطالب: ${user.displayName}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,

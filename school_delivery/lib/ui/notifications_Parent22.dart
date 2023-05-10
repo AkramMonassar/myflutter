@@ -12,13 +12,13 @@ class NotificationsParent22 extends StatelessWidget {
   Widget build(BuildContext context) {
 
     // Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    final noteManager = Provider.of<ProviderDataStudent>(context);
+    final noteManager = Provider.of<ProviderDataManager>(context);
     noteManager.NoteManager();
 
     final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Consumer<ProviderDataStudent>(
+      home: Consumer<ProviderDataManager>(
         builder: (context,dataStudent,child){
           return SafeArea(
             child: Scaffold(
@@ -108,7 +108,7 @@ class NotificationsParent22 extends StatelessWidget {
                             width: 15,
                           ),
                           Text(
-                            'اسم الطالب: ${noteManager.user.displayName}',
+                            'اسم الطالب: ${user.displayName}',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 14,

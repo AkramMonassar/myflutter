@@ -4,6 +4,7 @@ import 'package:school_delivery/data/buses_model.dart';
 import 'package:school_delivery/ui/bus_Drivers10.dart';
 
 
+import '../business/authSignInSignUp.dart';
 import 'Core/Animation/Fade_Animation.dart';
 import 'Core/Colors/Hex_Color.dart';
 enum FormData {
@@ -353,17 +354,34 @@ class _AddBusDriver11 extends State<AddBusDriver11> {
                                 delay: 1,
                                 child: TextButton(
                                     onPressed: () {
-                                      setState((){
-                                        final buses = Buses(
-                                          fullName: controllerName.text,
-                                          phone:int.parse(controllerPhone.text) ,
-                                          busOwnerAddress: controllerBusOwnerAddress.text,
-                                          plateNumber: controllerPlateNumber.text,
-                                          idCardNumber: controllerIdCardNumber.text
-                                        );
-                                        Buses.createBuses(buses);
-                                        // Navigator.pop(context);
-                                      });
+                                      if(controllerName.text.isNotEmpty
+                                          &&controllerPhone.text.isNotEmpty
+                                          &&controllerBusOwnerAddress.text.isNotEmpty
+                                          && controllerPlateNumber.text.isNotEmpty
+                                          &&controllerIdCardNumber.text.isNotEmpty)
+                                        {
+                                          setState((){
+                                            final buses = Buses(
+                                                fullName: controllerName.text,
+                                                phone:int.parse(controllerPhone.text) ,
+                                                busOwnerAddress: controllerBusOwnerAddress.text,
+                                                plateNumber: controllerPlateNumber.text,
+                                                idCardNumber: controllerIdCardNumber.text
+                                            );
+                                            Buses.createBuses(buses);
+                                            AuthSignInSignUp.showAlertDialog(context, 'تم بنجاح اضافة سائق باص جديد', 'نجحت');
+                                            // Navigator.pop(context);
+                                          });
+                                          controllerName.text="";
+                                          controllerPhone.text="";
+                                          controllerBusOwnerAddress.text="";
+                                          controllerPlateNumber.text="";
+                                          controllerIdCardNumber.text="";
+                                        }
+
+
+
+
                                     },
                                     style: TextButton.styleFrom(
                                         backgroundColor: const Color(0xFF2697FF),

@@ -14,12 +14,12 @@ class PreparingStudents16 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    // final user = FirebaseAuth.instance.currentUser!;
+    Provider.of<ProviderDataManager>(context).getStudentsDetailsList();
+    final user = FirebaseAuth.instance.currentUser;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Consumer<ProviderDataStudent>(
+      home: Consumer<ProviderDataManager>(
         builder: (context,dataStudent,child){
             return SafeArea(
               child: Scaffold(
@@ -37,7 +37,7 @@ class PreparingStudents16 extends StatelessWidget {
                         Directionality(
                           textDirection: TextDirection.rtl,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               const MenuSettingLogoutAddDelete(),
                               // زر البلاي لست الي يظهر معنى التحضير للطلاب
@@ -47,7 +47,7 @@ class PreparingStudents16 extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               const SizedBox(
-                                width: 20,
+                                width: 15,
                               ),
                               // نص عنوان الصفحة " التحضير اليومي للطلاب "
                               const Text(
@@ -57,6 +57,9 @@ class PreparingStudents16 extends StatelessWidget {
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
+                              ),
+                              const SizedBox(
+                                width: 15,
                               ),
                               Text('العدد : ${dataStudent.studentsGListObject.length}',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 12),)
                             ],
@@ -77,13 +80,16 @@ class PreparingStudents16 extends StatelessWidget {
                                     fontSize: 12,
                                   ),
                                 ),
-                                Text(
-                                  'المشرف: ${dataStudent.user.email}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
+                                const SizedBox(
+                                  width: 20,
                                 ),
+                                // Text(
+                                //   'المشرف: ${dataStudent.user.email}',
+                                //   style: const TextStyle(
+                                //     color: Colors.white,
+                                //     fontSize: 12,
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
