@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../business/authSignInSignUp.dart';
 import 'add_bus_supervisor_account12.dart';
 import 'modify_bus_supervisor_account12.dart';
 
@@ -23,11 +24,16 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
     super.didChangeDependencies();
     getSupervisorDetailsList();
   }
-
+  var supervisor;
   @override
   Widget build(BuildContext context) {
     getSupervisorDetailsList();
+    final CollectionReference collectionReference =
+    FirebaseFirestore.instance.collection('Supervisor');
 
+    Stream<QuerySnapshot> getDocuments() {
+      return collectionReference.snapshots();
+    }
     return SafeArea(
       child: Stack(
         children: [
@@ -39,8 +45,8 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
                 width: MediaQuery.of(context).size.width,
                 height: 800,
                 decoration: BoxDecoration(
-                  color: Color(0xfffdfdfd),
-                  borderRadius: BorderRadius.all(Radius.circular(10))
+                    color: Color(0xfffdfdfd),
+                    borderRadius: BorderRadius.all(Radius.circular(10))
                 ),
                 child: Directionality(
                   textDirection: TextDirection.rtl,
@@ -55,8 +61,8 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
                               setState(() {});
                             },
                             child: StreamBuilder(
-                              stream: collectionReference.snapshots(),
-                              builder: (context, snapshot) {
+                              stream: getDocuments(),
+                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if (!snapshot.hasData) {
                                   return CircularProgressIndicator();
                                 } else if (snapshot.hasError) {
@@ -65,23 +71,23 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
                                   );
                                 }
                                 print("snapshot in streamBuilder : ${snapshot.hasData}");
+                                print("Supervisor from in  :${supervisor}");
 
                                 return DataTable(
                                   columnSpacing: 15,
                                   dividerThickness: 3,
-
                                   columns: const [
                                     DataColumn(label: Text('الاسم',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12),),),
                                     DataColumn(label: Text('البريد الالكتروني',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12),)),
                                     DataColumn(label: Text('تعديل',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12),)),
                                     DataColumn(label: Text('حذف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12),)),
                                   ],
-                                  rows: SupervisorListObject.map((row) {
+                                  rows: snapshot.data!.docs.map((DocumentSnapshot document)  {
                                     return DataRow(
                                         color: MaterialStateColor.resolveWith((states) => Colors.grey),
                                         cells: [
-                                          DataCell(Text(row['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize:12))),
-                                          DataCell(Text(row['email'],style: TextStyle(fontWeight: FontWeight.bold,fontSize:12))),
+                                          DataCell(Text((document.data() as Map<String, dynamic>)['name'] ?? '',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12))),
+                                          DataCell(Text((document.data() as Map<String, dynamic>)['email'] ?? '',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12))),
                                           DataCell(IconButton(
                                             icon: const Icon(
                                               Icons.edit,
@@ -89,7 +95,7 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
                                             onPressed: (){
                                               Navigator.push(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => ModifyBusSupervisor12()),
+                                                MaterialPageRoute(builder: (context) => ModifyBusSupervisor12(document:document)),
                                               );
                                             },
                                           )),
@@ -98,7 +104,8 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
                                               Icons.delete,
                                             ),
                                             onPressed: (){
-
+                                              AuthSignInSignUp.showAlertDialog(context, 'لقد تم حذف المشرف بنجاح', 'نجحت');
+                                              collectionReference.doc(document.id).delete();
                                             },
                                           )),
                                         ]);
@@ -128,6 +135,7 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
       ),
     );
   }
+
 
   Future getSupervisorDetailsList() async {
     final snapshot = await collectionReference.get();

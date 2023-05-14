@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:school_delivery/ui/add_Bus_Driver11.dart';
 
-import 'modify_Buse_Driver.dart';
+import '../business/authSignInSignUp.dart';
+import 'modify_Buse_Driver11.dart';
 
 
 class BusDrivers10 extends StatefulWidget {
@@ -30,7 +31,12 @@ class _BusDrivers10 extends State<BusDrivers10> {
   @override
   Widget build(BuildContext context) {
     getBusesDetailsList();
+    final CollectionReference collectionReference =
+    FirebaseFirestore.instance.collection('Buses');
 
+    Stream<QuerySnapshot> getDocuments() {
+      return collectionReference.snapshots();
+    }
     return SafeArea(
       child: Stack(
         children: [
@@ -49,8 +55,8 @@ class _BusDrivers10 extends State<BusDrivers10> {
                           setState(() {});
                         },
                         child: StreamBuilder(
-                          stream: collectionReference.snapshots(),
-                          builder: (context, snapshot) {
+                          stream: getDocuments(),
+                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                             if (!snapshot.hasData) {
                               return CircularProgressIndicator();
                             } else if (snapshot.hasError) {
@@ -71,19 +77,19 @@ class _BusDrivers10 extends State<BusDrivers10> {
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: DataTable(
-                                  columnSpacing: 15,
+                                  columnSpacing: 35,
                                   columns: const [
                                     DataColumn(label: Text('الاسم',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),),),
                                     DataColumn(label: Text('رقم الهاتف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
                                     DataColumn(label: Text('تعديل',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
                                     DataColumn(label: Text('حذف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
                                   ],
-                                  rows: BusesListObject.map((row) {
+                                  rows: snapshot.data!.docs.map((DocumentSnapshot document) {
                                     return DataRow(
                                         color: MaterialStateColor.resolveWith((states) => Colors.grey),
                                         cells: [
-                                      DataCell(Text(row['fullName'])),
-                                      DataCell(Text(row['phone'].toString())),
+                                      DataCell(Text(document['fullName'])),
+                                      DataCell(Text(document['phone'].toString())),
                                       DataCell(IconButton(
                                         icon: const Icon(
                                           Icons.edit,
@@ -91,7 +97,7 @@ class _BusDrivers10 extends State<BusDrivers10> {
                                         onPressed: (){
                                           Navigator.push(
                                             context,
-                                            MaterialPageRoute(builder: (context) => ModifyBusDriver11()),
+                                            MaterialPageRoute(builder: (context) => ModifyBusDriver11(document:document)),
                                           );
                                         },
                                       )),
@@ -100,7 +106,8 @@ class _BusDrivers10 extends State<BusDrivers10> {
                                           Icons.delete,
                                         ),
                                         onPressed: (){
-
+                                          AuthSignInSignUp.showAlertDialog(context, 'لقد تم حذف السائق بنجاح', 'نجحت');
+                                          collectionReference.doc(document.id).delete();
                                         },
                                       )),
                                     ]);

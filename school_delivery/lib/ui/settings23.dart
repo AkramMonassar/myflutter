@@ -55,14 +55,22 @@ class Settings23 extends StatelessWidget {
           Pinned.fromPins(
             Pin(size: 148.0, middle: 0.5872),
             Pin(size: 35.0, end: 28.5),
-            child: const Text(
-              'تسجيل الخروج',
-              style: TextStyle(
-                fontFamily: 'Segoe UI',
-                fontSize: 26,
-                color: Color(0xff000000),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+
               ),
-              softWrap: false,
+              onPressed: (){
+
+              },
+              child: const Text(
+                'تسجيل الخروج',
+                style: TextStyle(
+                  fontFamily: 'Segoe UI',
+                  fontSize: 26,
+                  color: Color(0xff000000),
+                ),
+                softWrap: false,
+              ),
             ),
           ),
           Pinned.fromPins(

@@ -70,7 +70,7 @@ class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
                                         value: 'Option 1',
                                         child: GestureDetector(
                                             onTap: (){
-                                              FirebaseAuth.instance.signOut();
+                                              // FirebaseAuth.instance.signOut();
                                               // Navigator.pop(context);
                                               // Navigator.of(context).popUntil((route) => route.isFirst);
                                               Navigator.push(

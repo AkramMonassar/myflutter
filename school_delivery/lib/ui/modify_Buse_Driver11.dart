@@ -1,6 +1,8 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../business/authSignInSignUp.dart';
 import 'Core/Animation/Fade_Animation.dart';
 import 'Core/Colors/Hex_Color.dart';
 enum FormData {
@@ -12,6 +14,10 @@ enum FormData {
 }
 
 class ModifyBusDriver11 extends StatefulWidget {
+  final DocumentSnapshot document;
+
+  ModifyBusDriver11({required this.document});
+
   @override
   State<StatefulWidget> createState() {
     return _ModifyBusDriver11();
@@ -21,12 +27,14 @@ class ModifyBusDriver11 extends StatefulWidget {
 }
 
 class _ModifyBusDriver11 extends State<ModifyBusDriver11> {
-  final controllerName = TextEditingController();
-  final controllerPhone = TextEditingController();
-  final controllerBusOwnerAddress = TextEditingController();
-  final controllerPlateNumber = TextEditingController();
-  final controllerIdCardNumber = TextEditingController();
+  final CollectionReference collectionReference =
+  FirebaseFirestore.instance.collection('Buses');
 
+  String? name;
+  int? phone;
+  String? address;
+  String? plateNumber;
+  String? idCardNumber;
 
   Color enabled = const Color.fromARGB(255, 63, 56, 89);
   Color enabledtxt = Colors.white;
@@ -35,6 +43,16 @@ class _ModifyBusDriver11 extends State<ModifyBusDriver11> {
   bool ispasswordev = true;
   FormData? selected;
 
+  @override
+  void initState() {
+    super.initState();
+    name = (widget.document.data() as Map<String, dynamic>)['fullName'];
+    phone = (widget.document.data()as Map<String, dynamic>)['phone'];
+    address=(widget.document.data()as Map<String, dynamic>)['busOwnerAddress'];
+    plateNumber=(widget.document.data() as Map<String, dynamic>)['plateNumber'];
+    idCardNumber=(widget.document.data()as Map<String, dynamic>)['idCardNumber'];
+
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -112,12 +130,13 @@ class _ModifyBusDriver11 extends State<ModifyBusDriver11> {
                                   ),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerName,
+                                    controller: TextEditingController(text: name),
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.name;
                                       });
                                     },
+                                    onChanged: (value) => name = value,
                                     decoration: InputDecoration(
                                       enabledBorder: InputBorder.none,
                                       border: InputBorder.none,
@@ -161,13 +180,14 @@ class _ModifyBusDriver11 extends State<ModifyBusDriver11> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerPhone,
+                                    controller: TextEditingController(text: phone.toString()),
                                     keyboardType: TextInputType.number,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.phone;
                                       });
                                     },
+                                    onChanged: (value) => phone = int.parse(value),
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -211,13 +231,14 @@ class _ModifyBusDriver11 extends State<ModifyBusDriver11> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerBusOwnerAddress,
+                                    controller: TextEditingController(text: address),
                                     keyboardType: TextInputType.text,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.address;
                                       });
                                     },
+                                    onChanged: (value) => address = value,
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -260,13 +281,14 @@ class _ModifyBusDriver11 extends State<ModifyBusDriver11> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerPlateNumber,
+                                    controller: TextEditingController(text: plateNumber.toString()),
                                     keyboardType: TextInputType.number,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.plateNumber;
                                       });
                                     },
+                                    onChanged: (value) => plateNumber =value,
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -309,13 +331,14 @@ class _ModifyBusDriver11 extends State<ModifyBusDriver11> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerIdCardNumber,
+                                    controller: TextEditingController(text: idCardNumber.toString()),
                                     keyboardType: TextInputType.number,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.idCardNumber;
                                       });
                                     },
+                                    onChanged: (value) => idCardNumber = value,
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -350,17 +373,15 @@ class _ModifyBusDriver11 extends State<ModifyBusDriver11> {
                                 delay: 1,
                                 child: TextButton(
                                     onPressed: () {
-                                      // setState((){
-                                      //   final buses = Buses(
-                                      //       fullName: controllerName.text,
-                                      //       phone:int.parse(controllerPhone.text) ,
-                                      //       busOwnerAddress: controllerBusOwnerAddress.text,
-                                      //       plateNumber: controllerPlateNumber.text,
-                                      //       idCardNumber: controllerIdCardNumber.text
-                                      //   );
-                                      //   Buses.createBuses(buses);
-                                      //   // Navigator.pop(context);
-                                      // });
+                                      collectionReference.doc(widget.document.id).update({
+                                        'fullName': name,
+                                        'phone': phone,
+                                        'busOwnerAddress':address,
+                                        'plateNumber':plateNumber,
+                                        'idCardNumber':idCardNumber
+                                      });
+                                      Navigator.pop(context);
+                                      AuthSignInSignUp.showAlertDialog(context, 'لقد تم تعديل البيانات', 'نجحت');
                                     },
                                     style: TextButton.styleFrom(
                                         backgroundColor: const Color(0xFF2697FF),

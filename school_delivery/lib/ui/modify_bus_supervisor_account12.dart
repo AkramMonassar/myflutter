@@ -1,21 +1,23 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:school_delivery/data/buses_model.dart';
-import 'package:school_delivery/ui/bus_Drivers10.dart';
-
-
-import '../data/supervisor_model.dart';
+import '../business/authSignInSignUp.dart';
 import 'Core/Animation/Fade_Animation.dart';
 import 'Core/Colors/Hex_Color.dart';
 enum FormData {
   name,
   phone,
   address,
+  email,
   password,
   confirmPassword
 }
 
 class ModifyBusSupervisor12 extends StatefulWidget {
+  final DocumentSnapshot document;
+
+  ModifyBusSupervisor12({required this.document});
+
   @override
   State<StatefulWidget> createState() {
     return _ModifyBusSupervisor12();
@@ -25,11 +27,16 @@ class ModifyBusSupervisor12 extends StatefulWidget {
 }
 
 class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
-  final controllerName = TextEditingController();
-  final controllerPhone = TextEditingController();
-  final controllerSupervisorAddress = TextEditingController();
-  final controllerPassword = TextEditingController();
-  final controllerConfirmPassword = TextEditingController();
+  final CollectionReference collectionReference =
+  FirebaseFirestore.instance.collection('Supervisor');
+
+  String? name;
+  int? phone;
+  String? address;
+  String? email;
+  String? password;
+  String? confirmPassword;
+
 
 
   Color enabled = const Color.fromARGB(255, 63, 56, 89);
@@ -38,6 +45,17 @@ class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
   Color backgroundColor = const Color(0xFF1F1A30);
   bool ispasswordev = true;
   FormData? selected;
+
+  @override
+  void initState() {
+    super.initState();
+    name = (widget.document.data() as Map<String, dynamic>)['name'];
+    phone = (widget.document.data()as Map<String, dynamic>)['phone'];
+    address=(widget.document.data()as Map<String, dynamic>)['address'];
+    email=(widget.document.data() as Map<String, dynamic>)['email'];
+    password=(widget.document.data() as Map<String, dynamic>)['password'];
+    confirmPassword=(widget.document.data()as Map<String, dynamic>)['confirmPassword'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +100,7 @@ class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              //image logo
+                              //image logo صورة الشعار
                               FadeAnimation(
                                 delay: 0.8,
                                 child:Image.asset('assets/images/schooldelivery.png',width: 220,height: 220,),
@@ -116,12 +134,13 @@ class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
                                   ),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerName,
+                                    controller: TextEditingController(text: name),
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.name;
                                       });
                                     },
+                                    onChanged: (value) => name = value,
                                     decoration: InputDecoration(
                                       enabledBorder: InputBorder.none,
                                       border: InputBorder.none,
@@ -165,13 +184,14 @@ class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerPhone,
+                                    controller: TextEditingController(text: phone.toString()),
                                     keyboardType: TextInputType.number,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.phone;
                                       });
                                     },
+                                    onChanged: (value) => phone = int.parse(value),
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -215,13 +235,14 @@ class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerSupervisorAddress,
+                                    controller: TextEditingController(text: address),
                                     keyboardType: TextInputType.text,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.address;
                                       });
                                     },
+                                    onChanged: (value) => address = value,
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -251,6 +272,56 @@ class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
                               const SizedBox(
                                 height: 20,
                               ),
+                              //  البريد الالكتروني
+                              FadeAnimation(
+                                delay: 1,
+                                child: Container(
+                                  width: 300,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: selected == FormData.email
+                                          ? enabled
+                                          : backgroundColor),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: TextField(
+                                    controller: TextEditingController(text: email),
+                                    keyboardType: TextInputType.text,
+                                    onTap: () {
+                                      setState(() {
+                                        selected = FormData.email;
+                                      });
+                                    },
+                                    onChanged: (value) => email = value,
+                                    decoration: InputDecoration(
+                                        enabledBorder: InputBorder.none,
+                                        border: InputBorder.none,
+                                        prefixIcon: Icon(
+                                          Icons.email_outlined,
+                                          color: selected == FormData.email
+                                              ? enabledtxt
+                                              : deaible,
+                                          size: 20,
+                                        ),
+                                        hintText: 'البريد الالكتروني',
+                                        hintStyle: TextStyle(
+                                            color: selected == FormData.email
+                                                ? enabledtxt
+                                                : deaible,
+                                            fontSize: 12)),
+                                    textAlignVertical: TextAlignVertical.center,
+                                    style: TextStyle(
+                                        color: selected == FormData.email
+                                            ? enabledtxt
+                                            : deaible,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
                               // كلمة السر
                               FadeAnimation(
                                 delay: 1,
@@ -264,12 +335,13 @@ class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerPassword,
+                                    controller: TextEditingController(text: password),
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.password;
                                       });
                                     },
+                                    onChanged: (value) => password = value,
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -332,12 +404,13 @@ class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerConfirmPassword,
+                                    controller: TextEditingController(text: confirmPassword),
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.confirmPassword;
                                       });
                                     },
+                                    onChanged: (value) => confirmPassword = value,
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -393,14 +466,16 @@ class _ModifyBusSupervisor12 extends State<ModifyBusSupervisor12> {
                                 child: TextButton(
                                     onPressed: () {
                                       setState((){
-                                        final supervisor = Supervisor(
-                                            name: controllerName.text,
-                                            phone:int.parse(controllerPhone.text) ,
-                                            address: controllerSupervisorAddress.text,
-                                            password: controllerPassword.text,
-                                            confirmPassword: controllerConfirmPassword.text
-                                        );
-                                        Supervisor.createSupervisor(supervisor);
+                                        collectionReference.doc(widget.document.id).update({
+                                          'name': name,
+                                          'phone': phone,
+                                          'address':address,
+                                          'email':email,
+                                          'password':password,
+                                          'confirmPassword':confirmPassword
+                                        });
+                                        Navigator.pop(context);
+                                        AuthSignInSignUp.showAlertDialog(context, 'لقد تم تعديل البيانات', 'نجحت');
                                       });
                                     },
                                     style: TextButton.styleFrom(

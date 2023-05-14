@@ -33,31 +33,31 @@ class MenuSettingLogoutAddDelete extends StatelessWidget {
                   ),
                 ),
               ),
-              PopupMenuItem(
-                value: 'Option 2',
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ModifyStudentsG17()));
-                  },
-                  child: Row(
-                    children: const [
-                      Icon(Icons.edit_outlined),
-                      SizedBox(width: 8,),
-                      Text('تعديل طالب'),
-                    ],
-                  ),
-                ),
-              ),
-              PopupMenuItem(
-                value: 'Option 3',
-                child: Row(
-                  children: const [
-                    Icon(Icons.delete_outlined),
-                    SizedBox(width: 8,),
-                    Text('حذف طالب'),
-                  ],
-                ),
-              ),
+              // PopupMenuItem(
+              //   value: 'Option 2',
+              //   child: GestureDetector(
+              //     onTap: (){
+              //       Navigator.push(context, MaterialPageRoute(builder: (context)=>ModifyStudentsG17(document: document,)));
+              //     },
+              //     child: Row(
+              //       children: const [
+              //         Icon(Icons.edit_outlined),
+              //         SizedBox(width: 8,),
+              //         Text('تعديل طالب'),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // PopupMenuItem(
+              //   value: 'Option 3',
+              //   child: Row(
+              //     children: const [
+              //       Icon(Icons.delete_outlined),
+              //       SizedBox(width: 8,),
+              //       Text('حذف طالب'),
+              //     ],
+              //   ),
+              // ),
               PopupMenuItem(
                 value: 'Option 1',
                 child: GestureDetector(

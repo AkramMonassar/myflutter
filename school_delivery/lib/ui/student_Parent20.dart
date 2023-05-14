@@ -17,7 +17,7 @@ class StudentParent20 extends StatelessWidget {
     Provider.of<ProviderDataManager>(context).getStudentsDetailsList();
     final alertsManager = Provider.of<ProviderDataManager>(context);
 
-    final user = FirebaseAuth.instance.currentUser!;
+    final user = FirebaseAuth.instance.currentUser;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Consumer<ProviderDataManager>(
@@ -114,7 +114,7 @@ class StudentParent20 extends StatelessWidget {
                               width: 15,
                             ),
                             Text(
-                              'اسم الطالب: ${user.displayName}',
+                              'اسم الطالب: ${user?.displayName}',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -156,7 +156,7 @@ class StudentParent20 extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
                                 ),
                                 onPressed: (){
-                                  alertsManager.addAlert(' طلب / عدم الذهاب الى المدرسة للطالب ${user.displayName} ');
+                                  alertsManager.addAlert(' طلب / عدم الذهاب الى المدرسة للطالب ${user?.displayName} ');
                                   childMethod(context);                                },
                                 child: const Text("طلب الغاء الذهاب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                               ),
@@ -166,7 +166,7 @@ class StudentParent20 extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
                                 ),
                                 onPressed: (){
-                                  alertsManager.addAlert(' طلب / عدم الاياب من المدرسة للطالب ${user.displayName} ');
+                                  alertsManager.addAlert(' طلب / عدم الاياب من المدرسة للطالب ${user?.displayName} ');
                                   childMethod(context);                                  },
                                 child: const Text("طلب الغاء الاياب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                               ),

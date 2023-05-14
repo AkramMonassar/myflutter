@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../business/authSignInSignUp.dart';
 import '../data/students_Guardians_model.dart';
 import '../data/supervisor_model.dart';
 import 'Core/Animation/Fade_Animation.dart';
@@ -7,7 +9,7 @@ enum FormData {
   name,
   phone,
   address,
-  userName,
+  email,
   password,
   confirmPassword,
   busId,
@@ -15,6 +17,10 @@ enum FormData {
 }
 
 class ModifyStudentsG17 extends StatefulWidget {
+  final DocumentSnapshot document;
+
+  ModifyStudentsG17({required this.document});
+
   @override
   State<StatefulWidget> createState() {
     return _ModifyStudentsG17();
@@ -24,15 +30,17 @@ class ModifyStudentsG17 extends StatefulWidget {
 }
 
 class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
-  final controllerName = TextEditingController();
-  final controllerPhone = TextEditingController();
-  final controllerAddress = TextEditingController();
-  final controllerUserName = TextEditingController();
-  final controllerPassword = TextEditingController();
-  final controllerConfirmPassword = TextEditingController();
-  final controllerBusId = TextEditingController();
-  final controllerSupervisorId = TextEditingController();
+  final CollectionReference collectionReference =
+  FirebaseFirestore.instance.collection('StudentsG');
 
+  String? name;
+  int? phone;
+  String? address;
+  String? email;
+  String? password;
+  String? confirmPassword;
+  int? busId;
+  int? supervisorId;
 
   Color enabled = const Color.fromARGB(255, 63, 56, 89);
   Color enabledtxt = Colors.white;
@@ -40,6 +48,21 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
   Color backgroundColor = const Color(0xFF1F1A30);
   bool ispasswordev = true;
   FormData? selected;
+
+  @override
+  void initState() {
+    super.initState();
+    name = (widget.document.data() as Map<String, dynamic>)['fullName'];
+    phone = (widget.document.data()as Map<String, dynamic>)['phone'];
+    address=(widget.document.data()as Map<String, dynamic>)['address'];
+    email=(widget.document.data() as Map<String, dynamic>)['email'];
+    password=(widget.document.data()as Map<String, dynamic>)['password'];
+    confirmPassword=(widget.document.data()as Map<String, dynamic>)['confirmPassword'];
+    busId=(widget.document.data() as Map<String, dynamic>)['busId'];
+    supervisorId=(widget.document.data()as Map<String, dynamic>)['supervisorId'];
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -118,12 +141,16 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                                   ),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerName,
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.right,
+                                    controller: TextEditingController(text: name),
+                                    showCursor: true,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.name;
                                       });
                                     },
+                                    onChanged: (value) => name = value,
                                     decoration: InputDecoration(
                                       enabledBorder: InputBorder.none,
                                       border: InputBorder.none,
@@ -167,13 +194,16 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerPhone,
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.right,
+                                    controller: TextEditingController(text: phone.toString()),
                                     keyboardType: TextInputType.number,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.phone;
                                       });
                                     },
+                                    onChanged: (value) => phone = int.parse(value),
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -217,13 +247,16 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerAddress,
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.right,
+                                    controller: TextEditingController(text: address),
                                     keyboardType: TextInputType.text,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.address;
                                       });
                                     },
+                                    onChanged: (value) => address = value,
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -253,7 +286,7 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              //اسم المستخدم
+                              //البريد الالكتروني
                               FadeAnimation(
                                 delay: 1,
                                 child: Container(
@@ -261,38 +294,41 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                                   height: 40,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12.0),
-                                    color: selected == FormData.userName
+                                    color: selected == FormData.email
                                         ? enabled
                                         : backgroundColor,
                                   ),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerUserName,
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.right,
+                                    controller: TextEditingController(text: email),
                                     onTap: () {
                                       setState(() {
-                                        selected = FormData.userName;
+                                        selected = FormData.email;
                                       });
                                     },
+                                    onChanged: (value) => email = value,
                                     decoration: InputDecoration(
                                       enabledBorder: InputBorder.none,
                                       border: InputBorder.none,
                                       prefixIcon: Icon(
-                                        Icons.person_rounded,
-                                        color: selected == FormData.userName
+                                        Icons.email_outlined,
+                                        color: selected == FormData.email
                                             ? enabledtxt
                                             : deaible,
                                         size: 20,
                                       ),
-                                      hintText: 'اسم المستخدم',
+                                      hintText: 'البريد الالكتروني لوالد الطالب',
                                       hintStyle: TextStyle(
-                                          color: selected == FormData.userName
+                                          color: selected == FormData.email
                                               ? enabledtxt
                                               : deaible,
                                           fontSize: 12),
                                     ),
                                     textAlignVertical: TextAlignVertical.center,
                                     style: TextStyle(
-                                        color: selected == FormData.userName
+                                        color: selected == FormData.email
                                             ? enabledtxt
                                             : deaible,
                                         fontWeight: FontWeight.bold,
@@ -316,12 +352,15 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerPassword,
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.right,
+                                    controller: TextEditingController(text: password),
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.password;
                                       });
                                     },
+                                    onChanged: (value) => password = value,
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -384,12 +423,15 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerConfirmPassword,
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.right,
+                                    controller: TextEditingController(text: confirmPassword),
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.confirmPassword;
                                       });
                                     },
+                                    onChanged: (value) => confirmPassword = value,
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -452,13 +494,16 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerBusId,
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.right,
+                                    controller: TextEditingController(text: busId.toString()),
                                     keyboardType: TextInputType.number,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.busId;
                                       });
                                     },
+                                    onChanged: (value) => busId = int.parse(value),
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -502,13 +547,16 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                                           : backgroundColor),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerSupervisorId,
+                                    textDirection: TextDirection.rtl,
+                                    textAlign: TextAlign.right,
+                                    controller: TextEditingController(text: supervisorId.toString()),
                                     keyboardType: TextInputType.number,
                                     onTap: () {
                                       setState(() {
                                         selected = FormData.supervisorId;
                                       });
                                     },
+                                    onChanged: (value) => supervisorId = int.parse(value),
                                     decoration: InputDecoration(
                                         enabledBorder: InputBorder.none,
                                         border: InputBorder.none,
@@ -544,19 +592,20 @@ class _ModifyStudentsG17 extends State<ModifyStudentsG17> {
                                 delay: 1,
                                 child: TextButton(
                                     onPressed: () {
-                                      // setState((){
-                                      //   final students = StudentsGuardians(
-                                      //     fullName: controllerName.text,
-                                      //     phone:int.parse(controllerPhone.text) ,
-                                      //     address: controllerAddress.text,
-                                      //     userName: controllerUserName.text,
-                                      //     password: controllerPassword.text,
-                                      //     confirmPassword: controllerConfirmPassword.text,
-                                      //     busId:int.parse(controllerBusId.text),
-                                      //     supervisorId: int.parse(controllerSupervisorId.text),
-                                      //   );
-                                      //   StudentsGuardians.createStudentsGuardians(students);
-                                      // });
+                                      setState((){
+                                        collectionReference.doc(widget.document.id).update({
+                                          'fullName': name,
+                                          'phone': phone,
+                                          'address':address,
+                                          'email':email,
+                                          'password':password,
+                                          'confirmPassword':confirmPassword,
+                                          'busId':busId,
+                                          'supervisorId':supervisorId
+                                        });
+                                        Navigator.pop(context);
+                                        AuthSignInSignUp.showAlertDialog(context, 'لقد تم تعديل البيانات', 'نجحت');
+                                      });
                                     },
                                     style: TextButton.styleFrom(
                                         backgroundColor: const Color(0xFF2697FF),

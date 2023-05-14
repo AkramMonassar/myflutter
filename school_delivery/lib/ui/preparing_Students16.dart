@@ -15,7 +15,8 @@ class PreparingStudents16 extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Provider.of<ProviderDataManager>(context).getStudentsDetailsList();
-    final user = FirebaseAuth.instance.currentUser;
+    // final user = FirebaseAuth.instance.currentUser;
+    Provider.of<ProviderDataManager>(context).user;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
