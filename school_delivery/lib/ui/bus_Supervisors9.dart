@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../business/authSignInSignUp.dart';
@@ -14,6 +15,7 @@ class BusSupervisors9 extends StatefulWidget {
 }
 
 class _BusSupervisors9 extends State<BusSupervisors9> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   List SupervisorListObject = [];
   // late QuerySnapshot snap;
   CollectionReference collectionReference =
@@ -106,6 +108,7 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
                                             onPressed: (){
                                               AuthSignInSignUp.showAlertDialog(context, 'لقد تم حذف المشرف بنجاح', 'نجحت');
                                               collectionReference.doc(document.id).delete();
+                                              deleteUserByEmail(document['email'],document['password']);
                                             },
                                           )),
                                         ]);
@@ -151,5 +154,17 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
         print('user is empty');
       }
     });
+  }
+
+  Future<void> deleteUserByEmail(String email,String password) async {
+    try {
+      List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
+      if (signInMethods.isNotEmpty) {
+        User? user = (await _auth.signInWithEmailAndPassword(email: email, password:password)).user;
+        await user?.delete();
+      }
+    } catch (e) {
+      print("Failed to delete user account: $e");
+    }
   }
 }
