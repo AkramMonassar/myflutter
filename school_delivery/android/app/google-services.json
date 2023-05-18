@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "654172319030",
-    "firebase_url": "https://school-delivery-6c619-default-rtdb.firebaseio.com",
-    "project_id": "school-delivery-6c619",
-    "storage_bucket": "school-delivery-6c619.appspot.com"
+    "project_number": "115771690009",
+    "project_id": "schooldelivery-39e46",
+    "storage_bucket": "schooldelivery-39e46.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:654172319030:android:4dcbb4b3bd22c23cec1797",
+        "mobilesdk_app_id": "1:115771690009:android:2df12f64acdb60fc962e88",
         "android_client_info": {
-          "package_name": "com.example.school_delivery"
+          "package_name": "com.student.school_delivery"
         }
       },
       "oauth_client": [
         {
-          "client_id": "654172319030-qh4trp0ql6705pp1qeiav0jhbs13m4gt.apps.googleusercontent.com",
+          "client_id": "115771690009-f38qro6vj6crjekndmb48r3vlsj3tdm0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDA2PKTQalZFaR8fCyzPrZvh2zA-1Uno9s"
+          "current_key": "AIzaSyDDD4zDX_FsG-VsnzzNC4d_ZOs50MwcJzc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "654172319030-qh4trp0ql6705pp1qeiav0jhbs13m4gt.apps.googleusercontent.com",
+              "client_id": "115771690009-f38qro6vj6crjekndmb48r3vlsj3tdm0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
